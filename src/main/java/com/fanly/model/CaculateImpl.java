@@ -200,4 +200,13 @@ public class CaculateImpl implements Caculater {
 		
 		return result;
 	}
+	
+	public double caculateExecutionFees(double princeple, long count) {
+		double result = 0.00d;
+		
+		if (princeple <= 0) {
+			
+		}
+		return result;
+	}
 }
