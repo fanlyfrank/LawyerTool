@@ -26,7 +26,7 @@ public class CaculateImpl implements Caculater {
 			
 			SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
 			
-			Date start = format.parse("1996.04.10");
+			Date start = format.parse("2015.04.10");
 			
 			Date end = format.parse("2016.04.11");
 			
@@ -36,8 +36,8 @@ public class CaculateImpl implements Caculater {
 			
 			//c.getInsertedInflectionPointDates(start, end);
 			
-			//c.caculateDelayPerformanceAmount(start, end, 50000);
-			c.caculateFineInterestAmount(start, end, 50000, 0.00053, 0.0005);
+			c.caculateDelayPerformanceAmount(start, end, 50000);
+			//c.caculateFineInterestAmount(start, end, 50000, 0.00053, 0.0005);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,9 +55,10 @@ public class CaculateImpl implements Caculater {
 	public DivisibleAmountResult caculateDelayPerformanceAmount(Date startDate, Date endDate, double princeple) throws ParseException {
 		
 		DivisibleAmountResult result = new DivisibleAmountResult();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
 		
-		result.startDate = startDate;
-		result.endDate = endDate;
+		result.startDate =  format.format(startDate);
+		result.endDate = format.format(endDate);
 		
 		List<Date> dates = loanRateService.getInsertedInflectionPointDates(startDate, endDate);
 		ArrayList<DivisibleAmountPart> parts = new ArrayList<DivisibleAmountPart>();
@@ -85,14 +86,20 @@ public class CaculateImpl implements Caculater {
 			
 			DivisibleAmountPart part = new DivisibleAmountPart();
 			
-			part.startDate = maxDate;
-			part.endDate = minDate;
+			part.startDate = format.format(maxDate);
+			part.endDate = format.format(minDate);
 			part.diffDays = diffDays;
 			part.rate = loanRateService.getLoanRate(minDate, diffDays);
 			
 			if (part.rate == 0) {
+				
 				part.rate = loanRateService.getLoanRate(dates.get(i + 2), diffDays);
-				part.amount = princeple * part.diffDays * part.rate / 360;
+				
+				if (part.rate == 0.000175) {
+					part.amount = princeple * part.diffDays * part.rate;
+				} else {
+					part.amount = princeple * part.diffDays * part.rate / 360;
+				}
 				
 				System.out.println(part);
 				parts.add(part);
@@ -123,9 +130,10 @@ public class CaculateImpl implements Caculater {
 	public DivisibleAmountResult caculateFineInterestAmount(Date startDate, Date endDate, double princeple, double maxRate, double minRate) throws ParseException {
 		
 		DivisibleAmountResult result = new DivisibleAmountResult();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
 		
-		result.startDate = startDate;
-		result.endDate = endDate;
+		result.startDate =  format.format(startDate);
+		result.endDate = format.format(endDate);
 		
 		List<Date> dates = fineInterestRateService.getInsertedInflectionPointDates(startDate, endDate);
 		ArrayList<DivisibleAmountPart> parts = new ArrayList<DivisibleAmountPart>();
@@ -153,8 +161,8 @@ public class CaculateImpl implements Caculater {
 			
 			DivisibleAmountPart part = new DivisibleAmountPart();
 			
-			part.startDate = maxDate;
-			part.endDate = minDate;
+			part.startDate = format.format(maxDate);
+			part.endDate = format.format(minDate);
 			part.diffDays = diffDays;
 			part.rate = fineInterestRateService.getFineRate(minDate, diffDays, maxRate, minRate);
 			

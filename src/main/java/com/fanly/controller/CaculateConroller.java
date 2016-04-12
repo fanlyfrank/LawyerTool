@@ -4,6 +4,7 @@ import java.beans.PropertyEditorSupport;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,14 +28,20 @@ public class CaculateConroller {
 	public Object caculateDelayPerformanceAmount(Date startDate, Date endDate, double princeple) {
 
 		DivisibleAmountResult result = null;
-
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			result = caculater.caculateDelayPerformanceAmount(startDate, endDate, princeple);
+			
+			resultMap.put("result", "1");
+			resultMap.put("obj", result);
+			
 		} catch (ParseException e) {
-			e.printStackTrace();
+			
+			resultMap.put("result", "0");
+			resultMap.put("obj", e);
 		}
 
-		return result;
+		return resultMap;
 	}
 	
 	@RequestMapping("/fineInterest")
