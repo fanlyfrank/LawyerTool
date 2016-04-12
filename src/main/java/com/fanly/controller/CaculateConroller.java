@@ -45,17 +45,25 @@ public class CaculateConroller {
 	}
 	
 	@RequestMapping("/fineInterest")
+	@ResponseBody
 	public Object caculateFineInterestAmount(Date startDate, Date endDate, double princeple, double maxRate, double minRate) {
 		
 		DivisibleAmountResult result = null;
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		
 		try {
 			result = caculater.caculateFineInterestAmount(startDate, endDate, princeple, maxRate, minRate);
+			
+			resultMap.put("result", "1");
+			resultMap.put("obj", result);
+			
 		} catch (ParseException e) {
-			e.printStackTrace();
+			
+			resultMap.put("result", "0");
+			resultMap.put("obj", e);
 		}
 		
-		return result;
+		return resultMap;
 	}
 
 	@InitBinder
