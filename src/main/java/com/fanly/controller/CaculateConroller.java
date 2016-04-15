@@ -66,6 +66,20 @@ public class CaculateConroller {
 		return resultMap;
 	}
 
+	@RequestMapping("/maintenamceCosts")
+	@ResponseBody
+	public Object caculateMaintenamceCosts(double princeple, long count) {
+		DivisibleAmountResult result = null;
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		result = caculater.caculateMaintenamceCosts(princeple, count);
+		
+		resultMap.put("result", "1");
+		resultMap.put("obj", result);
+		
+		return resultMap;
+	}
+	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new DateEditor());

@@ -16,8 +16,8 @@ public DivisibleAmountResult caculateDelayPerformanceAmount(Date startDate, Date
 
 public DivisibleAmountResult caculateFineInterestAmount(Date startDate, Date endDate, double princeple, double minRate, double maxRate) throws ParseException;
 
-public double caculateMaintenamceCosts(double princeple, long count);
+public DivisibleAmountResult caculateMaintenamceCosts(double princeple, long count);
 
-public double caculateExecutionFees(double princeple, long count);
+public DivisibleAmountResult caculateExecutionFees(double princeple, long count);
 
 }

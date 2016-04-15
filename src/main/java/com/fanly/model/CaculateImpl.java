@@ -194,23 +194,25 @@ public class CaculateImpl implements Caculater {
 		return result;
 	}
 	
-	public double caculateMaintenamceCosts(double princeple, long count) {
-		double result = 0.00d;
+	public DivisibleAmountResult caculateMaintenamceCosts(double princeple, long count) {
+		DivisibleAmountResult result = new DivisibleAmountResult();
+		result.totalResult = 0.00d;
 		
 		if	(princeple < 1000) {
-			result = count * 30;
+			result.totalResult = count * 30;
 		} else if (princeple >= 1000 && princeple < 100000) {
-			result = princeple * 0.01;
+			result.totalResult = princeple * 0.01;
 		} else if (princeple >= 100000) {
-			result = princeple * 0.005;
-			result = Math.max(result, 5000);
+			result.totalResult = princeple * 0.005;
+			result.totalResult = Math.min(result.totalResult, 5000);
 		}
 		
 		return result;
 	}
 	
-	public double caculateExecutionFees(double princeple, long count) {
-		double result = 0.00d;
+	public DivisibleAmountResult caculateExecutionFees(double princeple, long count) {
+		DivisibleAmountResult result = new DivisibleAmountResult();
+		result.totalResult = 0.00d;
 		
 		if (princeple <= 0) {
 			
